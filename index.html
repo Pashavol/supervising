@@ -33,22 +33,19 @@ body{
 .phone{
   position:fixed;inset:0;background:var(--bg);
   height:100dvh;overflow:hidden;display:flex;flex-direction:column;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
 }
+/* полосы безопасных зон подкрашиваем под шапку и меню, фон контента не трогаем */
+.phone::before,.phone::after{content:"";position:absolute;left:0;right:0;background:var(--card);z-index:5;pointer-events:none}
+.phone::before{top:0;height:env(safe-area-inset-top,0px)}
+.phone::after{bottom:0;height:env(safe-area-inset-bottom,0px)}
 /* iOS standalone: dvh поддерживается не везде, держим фолбэк */
 @supports (-webkit-touch-callout:none){
   .phone{height:100vh;height:-webkit-fill-available}
 }
 /* безопасные зоны устройства */
-.hdr{min-height:var(--hdr);height:auto;padding-top:env(safe-area-inset-top,0px)}
-.nav{
-  height:calc(var(--nav) + env(safe-area-inset-bottom,0px));
-  padding-bottom:env(safe-area-inset-bottom,0px);
-  z-index:6;
-}
-.actionbar{margin-bottom:env(safe-area-inset-bottom,0px)}
-.toast{bottom:calc(76px + env(safe-area-inset-bottom,0px))}
-.alert-ovl{padding-top:calc(16px + env(safe-area-inset-top,0px));padding-bottom:calc(16px + env(safe-area-inset-bottom,0px))}
-.sheet{padding-bottom:env(safe-area-inset-bottom,0px)}
+.nav{z-index:6}
 @media (min-width:520px){
   body{background:#e6e8ea}
   .phone{inset:auto;position:relative;width:420px;height:100dvh;margin:0 auto;box-shadow:0 0 40px rgba(0,32,51,.14)}
@@ -99,9 +96,9 @@ body{
 
 /* ---------- scroll body ---------- */
 .body{flex:1;overflow-y:auto;overflow-x:hidden;-webkit-overflow-scrolling:touch}
-.screen{padding:12px 12px calc(88px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:16px}
-.screen.has-bar{padding-bottom:calc(150px + env(safe-area-inset-bottom,0px))}
-.screen.no-nav{padding-bottom:calc(132px + env(safe-area-inset-bottom,0px))}
+.screen{padding:12px 12px 88px;display:flex;flex-direction:column;gap:16px}
+.screen.has-bar{padding-bottom:150px}
+.screen.no-nav{padding-bottom:132px}
 
 /* ---------- primitives ---------- */
 .card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);padding:16px}
