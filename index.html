@@ -33,19 +33,11 @@ body{
 .phone{
   position:fixed;inset:0;background:var(--bg);
   height:100dvh;overflow:hidden;display:flex;flex-direction:column;
-  padding-top:env(safe-area-inset-top,0px);
-  padding-bottom:env(safe-area-inset-bottom,0px);
 }
-/* полосы безопасных зон подкрашиваем под шапку и меню, фон контента не трогаем */
-.phone::before,.phone::after{content:"";position:absolute;left:0;right:0;background:var(--card);z-index:5;pointer-events:none}
-.phone::before{top:0;height:env(safe-area-inset-top,0px)}
-.phone::after{bottom:0;height:env(safe-area-inset-bottom,0px)}
 /* iOS standalone: dvh поддерживается не везде, держим фолбэк */
 @supports (-webkit-touch-callout:none){
   .phone{height:100vh;height:-webkit-fill-available}
 }
-/* безопасные зоны устройства */
-.nav{z-index:6}
 @media (min-width:520px){
   body{background:#e6e8ea}
   .phone{inset:auto;position:relative;width:420px;height:100dvh;margin:0 auto;box-shadow:0 0 40px rgba(0,32,51,.14)}
@@ -475,6 +467,18 @@ textarea.control{height:88px;padding:12px;resize:none;line-height:19px}
 .devtools .hintlist{margin:0;padding-left:16px;line-height:18px}
 :focus-visible{outline:2px solid var(--brand);outline-offset:2px}
 @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+/* ===== безопасные зоны устройства (iOS standalone) =====
+   правила намеренно в конце файла: они должны перебивать базовые */
+:root{--sat:env(safe-area-inset-top,0px);--sab:env(safe-area-inset-bottom,0px)}
+.hdr{min-height:var(--hdr);height:auto;padding-top:var(--sat)}
+.nav{height:calc(var(--nav) + var(--sab));padding-bottom:var(--sab);z-index:6}
+.actionbar{margin-bottom:var(--sab);z-index:6}
+.screen{padding-bottom:calc(88px + var(--sab))}
+.screen.has-bar{padding-bottom:calc(150px + var(--sab))}
+.screen.no-nav{padding-bottom:calc(132px + var(--sab))}
+.toast{bottom:calc(76px + var(--sab))}
+.sheet{padding-bottom:var(--sab)}
+.alert-ovl{padding-top:calc(16px + var(--sat));padding-bottom:calc(16px + var(--sab))}
 </style>
 </head>
 <body>
